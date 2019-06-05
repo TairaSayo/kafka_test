@@ -1,0 +1,12 @@
+[Unit]
+Description=Kafka consumer
+After=network-online.target
+
+[Service]
+
+User=root
+Restart=on-failure
+ExecStart=/usr/bin/python /opt/consumer/consumer.py
+
+[Install]
+WantedBy=multi-user.targetw

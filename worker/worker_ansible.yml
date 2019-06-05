@@ -1,5 +1,5 @@
 ---
-- hosts: prometheus
+- hosts: worker
   connection: local 
   become: true
   become_method: sudo
@@ -50,3 +50,43 @@
   - name: Install kafka-python
     pip:
       name: kafka-python
+  - name: Create consumer directory
+    file: 
+      path: /opt/consumer 
+      state: directory
+  - name: Consumer script file
+    copy: 
+      src: /vagrant/consumer.py
+      dest: /opt/consumer/consumer.py
+      force: yes
+  - name: Consumer service file
+    copy: 
+      src: /vagrant/consumer.service 
+      dest: /etc/systemd/system/consumer.service
+      force: yes
+  - name: Start consumer
+    systemd: 
+      name: consumer
+      state: reloaded 
+      enabled: yes 
+      daemon-reload: yes
+  - name: Create producer directory
+    file: 
+      path: /opt/producer 
+      state: directory
+  - name: producer script file
+    copy: 
+      src: /vagrant/producer.py
+      dest: /opt/producer/producer.py
+      force: yes
+  - name: producer service file
+    copy: 
+      src: /vagrant/producer.service 
+      dest: /etc/systemd/system/producer.service
+      force: yes
+  - name: Start producer
+    systemd: 
+      name: producer
+      state: reloaded 
+      enabled: yes 
+      daemon-reload: yes

@@ -1,0 +1,12 @@
+[Unit]
+Description=Kafka producer
+After=network-online.target
+
+[Service]
+
+User=root
+Restart=on-failure
+ExecStart=/usr/bin/python /opt/producer/producer.py
+
+[Install]
+WantedBy=multi-user.targetw

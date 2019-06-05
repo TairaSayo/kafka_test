@@ -38,6 +38,7 @@ Vagrant.configure("2") do | config |
     prometheus.vm.network "private_network", ip: "10.10.0.102" 
     prometheus.vm.network :forwarded_port, guest: 9090, host: 9090
     prometheus.vm.network :forwarded_port, guest: 9100, host: 9100
+    prometheus.vm.network :forwarded_port, guest: 3000, host: 3000
     prometheus.vm.provision "ansible_local" do |ansible|
       ansible.become = true
       ansible.playbook = "prometheus_ansible.yml"

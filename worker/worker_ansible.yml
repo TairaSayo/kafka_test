@@ -67,7 +67,7 @@
   - name: Start consumer
     systemd: 
       name: consumer
-      state: reloaded 
+      state: started 
       enabled: yes 
       daemon-reload: yes
   - name: Create producer directory
@@ -87,6 +87,6 @@
   - name: Start producer
     systemd: 
       name: producer
-      state: reloaded 
+      state: started 
       enabled: yes 
       daemon-reload: yes

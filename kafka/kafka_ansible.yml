@@ -15,7 +15,7 @@
     yum: 
       name: java-1.8.0-openjdk 
       state: installed
-  - name: Download
+  - name: Download kafka
     get_url: 
       url: https://www.apache.org/dist/kafka/2.1.1/kafka_2.11-2.1.1.tgz 
       dest: /tmp/kafka_2.11-2.1.1.tgz
@@ -97,3 +97,28 @@
     command: "/opt/kafka/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic input"
   - name: Create output topic
     command: "/opt/kafka/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic output"
+  - name: Download kafka_exporter
+    get_url: 
+      url: https://github.com/danielqsj/kafka_exporter/releases/download/v1.2.0/kafka_exporter-1.2.0.linux-amd64.tar.gz
+      dest: /tmp/kafka_exporter-1.2.0.linux-amd64.tar.gz
+  - name: Create kafka_exporter directory
+    file: 
+      path: /opt/kafka_exporter 
+      state: directory
+  - name: Unpack
+    unarchive: 
+      src: /tmp/kafka_exporter-1.2.0.linux-amd64.tar.gz 
+      dest: /opt/kafka_exporter/
+      copy: no 
+      extra_opts: [--strip-components=1]
+  - name: kafka_exporter service file
+    copy: 
+      src: /vagrant/kafka_exporter.service 
+      dest: /etc/systemd/system/kafka_exporter.service 
+      force: yes
+  - name: Start kafka_exporter
+    systemd: 
+      name: kafka_exporter
+      state: started 
+      enabled: yes 
+      daemon-reload: yes

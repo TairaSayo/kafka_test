@@ -1,0 +1,12 @@
+[Unit]
+Requires=kafka.service
+After=kafka.service
+
+[Service]
+Type=simple
+User=root
+ExecStart=/bin/sh -c '/opt/kafka_exporter/kafka_exporter --kafka.server=kafka:9092'
+Restart=on-abnormal
+
+[Install]
+WantedBy=multi-user.target

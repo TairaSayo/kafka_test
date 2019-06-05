@@ -30,3 +30,7 @@ scrape_configs:
     scrape_interval: "15s"
     static_configs:
     - targets: ['prometheus:9100', 'kafka:9100', 'worker:9100']
+  - job_name: "kafka"
+    scrape_interval: "15s"
+    static_configs:
+    - targets: ['kafka:9308']

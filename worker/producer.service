@@ -6,7 +6,7 @@ After=network-online.target
 
 User=root
 Restart=on-failure
-ExecStart=/usr/bin/python /opt/producer/producer.py
+ExecStart=/bin/sh -c '/usr/bin/python /opt/producer/producer.py'
 
 [Install]
 WantedBy=multi-user.targetw

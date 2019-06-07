@@ -5,7 +5,8 @@ After=zookeeper.service
 [Service]
 Type=simple
 User=root
-ExecStart=/bin/sh -c '/opt/kafka/bin/kafka-server-start.sh /opt/kafka/config/server.properties > /opt/kafka/kafka.log 2>&1'
+Environment=KAFKA_OPTS=-javaagent:/opt/kafka/jmx_prometheus_javaagent-0.6.jar=7071:/opt/kafka/kafka.yml
+ExecStart=/bin/sh -c '/opt/kafka/bin/kafka-server-start.sh config/server.properties > /opt/kafka/kafka.log 2>&1'
 ExecStop=/opt/kafka/bin/kafka-server-stop.sh
 Restart=on-abnormal
 

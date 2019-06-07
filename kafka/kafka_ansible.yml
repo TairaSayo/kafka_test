@@ -34,11 +34,6 @@
       src: /vagrant/zookeeper.service 
       dest: /etc/systemd/system/zookeeper.service 
       force: yes
-  - name: Kafka service file
-    copy: 
-      src: /vagrant/kafka.service 
-      dest: /etc/systemd/system/kafka.service
-      force: yes
   - name: Start Zookeper
     systemd: 
       name: zookeeper
@@ -48,6 +43,19 @@
   - name: Wait
     wait_for:
       timeout: 30
+  - name: Download JRE exporter
+    get_url: 
+      url: https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.6/jmx_prometheus_javaagent-0.6.jar
+      dest: /opt/kafka/jmx_prometheus_javaagent-0.6.jar
+  - name: Download JRE exporter config
+    get_url: 
+      url: https://raw.githubusercontent.com/prometheus/jmx_exporter/master/example_configs/kafka-0-8-2.yml
+      dest: /opt/kafka/kafka.yml
+  - name: Kafka service file
+    copy: 
+      src: /vagrant/kafka.service 
+      dest: /etc/systemd/system/kafka.service
+      force: yes
   - name: Start Kafka
     systemd: 
       name: kafka
@@ -61,64 +69,59 @@
       name: firewalld
       state: stopped
       enabled: false
-  - name: Download node_exporter
-    get_url: 
-      url: https://github.com/prometheus/node_exporter/releases/download/0.11.0/node_exporter-0.11.0.linux-amd64.tar.gz
-      dest: /tmp/node_exporter-0.11.0.linux-amd64.tar.gz
-  - name: Create node_exporter directory
-    file: 
-      path: /opt/node_exporter 
-      state: directory
-  - name: Unpack node_exporter
-    unarchive: 
-      src: /tmp/node_exporter-0.11.0.linux-amd64.tar.gz
-      dest: /opt/node_exporter
-      copy: no
-  - name: Node_exporter service file
-    copy: 
-      src: /vagrant/node_exporter.service 
-      dest: /etc/systemd/system/node_exporter.service
-      force: yes
-  - name: Start node_exporter
-    systemd: 
-      name: node_exporter
-      state: reloaded 
-      enabled: yes 
-      daemon-reload: yes
-  - name: Wait
-    wait_for:
-      timeout: 15
-  - name: Disable firewalld
-    systemd:
-      name: firewalld
-      state: stopped
-      enabled: false
+  # - name: Download node_exporter
+  #   get_url: 
+  #     url: https://github.com/prometheus/node_exporter/releases/download/0.11.0/node_exporter-0.11.0.linux-amd64.tar.gz
+  #     dest: /tmp/node_exporter-0.11.0.linux-amd64.tar.gz
+  # - name: Create node_exporter directory
+  #   file: 
+  #     path: /opt/node_exporter 
+  #     state: directory
+  # - name: Unpack node_exporter
+  #   unarchive: 
+  #     src: /tmp/node_exporter-0.11.0.linux-amd64.tar.gz
+  #     dest: /opt/node_exporter
+  #     copy: no
+  # - name: Node_exporter service file
+  #   copy: 
+  #     src: /vagrant/node_exporter.service 
+  #     dest: /etc/systemd/system/node_exporter.service
+  #     force: yes
+  # - name: Start node_exporter
+  #   systemd: 
+  #     name: node_exporter
+  #     state: reloaded 
+  #     enabled: yes 
+  #     daemon-reload: yes
+  # - name: Wait
+  #   wait_for:
+  #     timeout: 15
   - name: Create input topic
     command: "/opt/kafka/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic input"
   - name: Create output topic
     command: "/opt/kafka/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic output"
-  - name: Download kafka_exporter
-    get_url: 
-      url: https://github.com/danielqsj/kafka_exporter/releases/download/v1.2.0/kafka_exporter-1.2.0.linux-amd64.tar.gz
-      dest: /tmp/kafka_exporter-1.2.0.linux-amd64.tar.gz
-  - name: Create kafka_exporter directory
-    file: 
-      path: /opt/kafka_exporter 
-      state: directory
-  - name: Unpack
-    unarchive: 
-      src: /tmp/kafka_exporter-1.2.0.linux-amd64.tar.gz 
-      dest: /opt/kafka_exporter/
-      copy: no 
-      extra_opts: [--strip-components=1]
-  - name: kafka_exporter service file
-    copy: 
-      src: /vagrant/kafka_exporter.service 
-      dest: /etc/systemd/system/kafka_exporter.service 
-      force: yes
-  - name: Start kafka_exporter
-    systemd: 
-      name: kafka_exporter
-      state: started 
-      enabled: yes 
-      daemon-reload: yes
+  # - name: Download kafka_exporter
+  #   get_url: 
+  #     url: https://github.com/danielqsj/kafka_exporter/releases/download/v1.2.0/kafka_exporter-1.2.0.linux-amd64.tar.gz
+  #     dest: /tmp/kafka_exporter-1.2.0.linux-amd64.tar.gz
+  # - name: Create kafka_exporter directory
+  #   file: 
+  #     path: /opt/kafka_exporter 
+  #     state: directory
+  # - name: Unpack
+  #   unarchive: 
+  #     src: /tmp/kafka_exporter-1.2.0.linux-amd64.tar.gz 
+  #     dest: /opt/kafka_exporter/
+  #     copy: no 
+  #     extra_opts: [--strip-components=1]
+  # - name: kafka_exporter service file
+  #   copy: 
+  #     src: /vagrant/kafka_exporter.service 
+  #     dest: /etc/systemd/system/kafka_exporter.service 
+  #     force: yes
+  # - name: Start kafka_exporter
+  #   systemd: 
+  #     name: kafka_exporter
+  #     state: started 
+  #     enabled: yes 
+  #     daemon-reload: yes

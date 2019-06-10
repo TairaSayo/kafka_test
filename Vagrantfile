@@ -10,7 +10,7 @@ Vagrant.configure("2") do | config |
       end
     kafka.vm.provider :virtualbox do |vb|
       vb.name = "vm1"
-      vb.customize ["modifyvm", :id, "--memory", 2048]
+      vb.customize ["modifyvm", :id, "--memory", 4096]
       vb.customize ["modifyvm", :id, "--cpus", 2]
       vb.gui = false
     end
@@ -44,7 +44,7 @@ Vagrant.configure("2") do | config |
       end
     prometheus.vm.provider :virtualbox do |vb|
       vb.name = "vm3"
-      vb.customize ["modifyvm", :id, "--memory", 1024]
+      vb.customize ["modifyvm", :id, "--memory", 4096]
       vb.customize ["modifyvm", :id, "--cpus", 2]
       vb.gui = false
     end

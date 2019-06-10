@@ -55,9 +55,6 @@
       state: reloaded 
       enabled: yes 
       daemon-reload: yes
-  - name: Wait
-    wait_for:
-      timeout: 15
   - name: Disable firewalld
     systemd:
       name: firewalld

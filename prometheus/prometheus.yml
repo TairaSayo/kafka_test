@@ -17,3 +17,11 @@ scrape_configs:
     scrape_interval: "15s"
     static_configs:
     - targets: ['kafka:7071']
+  - job_name: "producer_metrics"
+    scrape_interval: "15s"
+    static_configs:
+    - targets: ['worker:8000']
+  - job_name: "cosumer_metrics"
+    scrape_interval: "15s"
+    static_configs:
+    - targets: ['worker:8100']

@@ -41,9 +41,6 @@
       state: reloaded 
       enabled: yes 
       daemon-reload: yes
-  - name: Wait
-    wait_for:
-      timeout: 15
   - name: Install pip
     yum: 
       name: python-pip 
@@ -51,6 +48,9 @@
   - name: Install kafka-python
     pip:
       name: kafka-python
+  - name: Install prometheus_client
+    pip:
+      name: prometheus_client
   - name: Create consumer directory
     file: 
       path: /opt/consumer 

@@ -30,8 +30,9 @@ In VM3 install Prometheus, Grafana. Find a way to export Kafka metrics and metri
 
 Vagrant 2.2.3
 VM Virtual box 6.0
-10.10.0.0/24 network is not used
-Host machine have internet connecton
+10.10.0.0/24 network is not used on host
+Host machine with internet connecton
+Warning: solution was tested on Windows based host only!
 
 ## To start
 
@@ -40,6 +41,10 @@ git clone https://github.com/TairaSayo/kafka_test.git
 - run deployment
 cd ./kafka_test
 vagrant up
+
+## To remove
+
+vagrant destroy -f
 
 ## Access points
 
@@ -51,26 +56,28 @@ or
 http://localhost:9090
 ```
 
-- Grafana dashboard
+- Grafana dashboard (user: admin; password: admin)
 
 ```bash
-http://10.10.0.102:3000
+http://10.10.0.102:3000/d/2P-hCZnWk/solution-overview
 or
-http://localhost:3000
+http://localhost:3000/d/2P-hCZnWk/solution-overview
 ```
 
 - hosts metrics
 
 ```bash
 worker:
-http://10.10.0.101:9100
+http://10.10.0.101:9100 > System metrics
+http://10.10.0.101:8000 > Producer metrics
+http://10.10.0.101:8100 > Consumer metrics
 
 kafka:
-http://10.10.0.100:9100
-http://10.10.0.100:7071
+http://10.10.0.100:9100 > System metrics
+http://10.10.0.100:7071 > Kafka metrics
 
 promethius:
-http://10.10.0.102:9100
+http://10.10.0.102:9100 > System metrics
 ```
 
-# Created for learning purporces, not to be used in live invironment!
+# Created for testing purporces only, do not use in live invironment!

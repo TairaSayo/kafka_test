@@ -4,7 +4,7 @@ Description=Node Exporter
 [Service]
 User=root
 Restart=on-failure
-ExecStart=/opt/node_exporter/node_exporter
+ExecStart=/opt/node_exporter/node_exporter --collector.systemd
 
 [Install]
 WantedBy=default.target

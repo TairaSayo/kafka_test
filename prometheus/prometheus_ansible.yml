@@ -32,17 +32,18 @@
       force: yes
   - name: Download node_exporter
     get_url: 
-      url: https://github.com/prometheus/node_exporter/releases/download/0.11.0/node_exporter-0.11.0.linux-amd64.tar.gz
-      dest: /tmp/node_exporter-0.11.0.linux-amd64.tar.gz
+      url: https://github.com/prometheus/node_exporter/releases/download/v0.16.0-rc.1/node_exporter-0.16.0-rc.1.linux-amd64.tar.gz
+      dest: /tmp/node_exporter-0.16.0-rc.1.linux-amd64.tar.gz
   - name: Create node_exporter directory
     file: 
-      path: /opt/prometheus/node_exporter 
+      path: /opt/node_exporter 
       state: directory
   - name: Unpack node_exporter
     unarchive: 
-      src: /tmp/node_exporter-0.11.0.linux-amd64.tar.gz
-      dest: /opt/prometheus/node_exporter
+      src: /tmp/node_exporter-0.16.0-rc.1.linux-amd64.tar.gz
+      dest: /opt/node_exporter
       copy: no
+      extra_opts: [--strip-components=1]
   - name: Node_exporter service file
     copy: 
       src: /vagrant/node_exporter.service 
